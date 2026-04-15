@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { exercises } from "../data/exercises";
 import type { Customer, Exercise } from "../types";
 import ExerciseLibrary from "./ExerciseLibrary";
+import { supabase } from "../lib/supabase";
 
 type ProgramItem = Exercise & {
   id: string;
@@ -9,20 +10,42 @@ type ProgramItem = Exercise & {
 };
 
 export default function ProgramBuilder({ customer }: { customer: Customer | undefined }) {
-  const [program, setProgram] = useState<ProgramItem[]>([
-    {
-      ...exercises[0],
-      id: `${exercises[0].id}-default`,
-      notes: "Rolig oppvarming før første sett",
-    },
-    {
-      ...exercises[2],
-      id: `${exercises[2].id}-default`,
-      notes: "Fokus på kontrollert tempo",
-    },
-  ]);
+  const [program, setProgram] = useState<ProgramItem[]>([]);
+  const [status, setStatus] = useState("");
 
   const totalExercises = useMemo(() => program.length, [program]);
+
+  useEffect(() => {
+    const loadProgram = async () => {
+      if (!customer) {
+        setProgram([]);
+        return;
+      }
+
+      setStatus("Laster program...");
+
+      const { data, error } = await supabase
+        .from("programs")
+        .select("exercises")
+        .eq("customer_id", customer.id)
+        .maybeSingle();
+
+      if (error) {
+        setStatus("Kunne ikke hente program");
+        return;
+      }
+
+      if (data?.exercises) {
+        setProgram(data.exercises as ProgramItem[]);
+        setStatus("Program lastet");
+      } else {
+        setProgram([]);
+        setStatus("Ingen lagret plan ennå");
+      }
+    };
+
+    loadProgram();
+  }, [customer]);
 
   const addExercise = (exercise: Exercise) => {
     setProgram((current) => [
@@ -43,6 +66,29 @@ export default function ProgramBuilder({ customer }: { customer: Customer | unde
     setProgram((current) =>
       current.map((item) => (item.id === id ? { ...item, notes } : item))
     );
+  };
+
+  const saveProgram = async () => {
+    if (!customer) return;
+
+    setStatus("Lagrer program...");
+
+    const { error } = await supabase.from("programs").upsert(
+      {
+        customer_id: customer.id,
+        exercises: program,
+      },
+      {
+        onConflict: "customer_id",
+      }
+    );
+
+    if (error) {
+      setStatus("Noe gikk galt ved lagring");
+      return;
+    }
+
+    setStatus("Program lagret");
   };
 
   return (
@@ -69,6 +115,13 @@ export default function ProgramBuilder({ customer }: { customer: Customer | unde
               </div>
             </div>
 
+            <div style={{ marginBottom: 16, display: "flex", gap: 12, alignItems: "center" }}>
+              <button type="button" className="primary-button" onClick={saveProgram}>
+                Lagre program
+              </button>
+              <span>{status}</span>
+            </div>
+
             <div className="program-list">
               {program.map((item, index) => (
                 <article key={item.id} className="program-item">
@@ -80,7 +133,11 @@ export default function ProgramBuilder({ customer }: { customer: Customer | unde
                         {item.muscleGroup} · {item.defaultReps}
                       </span>
                     </div>
-                    <button type="button" className="ghost-button" onClick={() => removeExercise(item.id)}>
+                    <button
+                      type="button"
+                      className="ghost-button"
+                      onClick={() => removeExercise(item.id)}
+                    >
                       Fjern
                     </button>
                   </div>
@@ -101,7 +158,7 @@ export default function ProgramBuilder({ customer }: { customer: Customer | unde
         ) : (
           <div className="empty-state">
             <strong>Velg en kunde for å starte</strong>
-            <p>Deretter kan du bygge program, legge inn notater og sette opp økten mer profesjonelt.</p>
+            <p>Deretter kan du bygge program, legge inn notater og lagre det på kunden.</p>
           </div>
         )}
       </section>
