@@ -1,0 +1,399 @@
+:root {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #101828;
+  background: linear-gradient(180deg, #f7f8fc 0%, #eef2f7 100%);
+  line-height: 1.5;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --primary: #30e3be;
+  --accent: #d91278;
+  --ink: #101828;
+  --muted: #667085;
+  --card: rgba(255, 255, 255, 0.84);
+  --border: rgba(16, 24, 40, 0.08);
+  --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--ink);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+input,
+select {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  padding: 0.85rem 1rem;
+  background: white;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  padding: 22px 26px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow);
+  border-radius: 28px;
+  backdrop-filter: blur(18px);
+}
+
+.topbar h1,
+.hero-card h1,
+.panel h2 {
+  margin: 0;
+}
+
+.brand-kicker,
+.eyebrow {
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.segmented-toggle {
+  display: inline-flex;
+  gap: 8px;
+  padding: 6px;
+  background: #f2f4f7;
+  border-radius: 999px;
+}
+
+.segmented-toggle button {
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.segmented-toggle button.active {
+  background: linear-gradient(135deg, var(--primary), #8ff1db);
+  color: #053b33;
+}
+
+.page-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.hero-card,
+.panel,
+.stat-card {
+  border: 1px solid var(--border);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+.hero-card {
+  border-radius: 30px;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+}
+
+.hero-card.slim {
+  grid-template-columns: 1fr;
+}
+
+.hero-text {
+  max-width: 720px;
+  color: var(--muted);
+  margin: 10px 0 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  border-radius: 24px;
+  padding: 18px;
+}
+
+.stat-label,
+.stat-helper,
+.customer-card span,
+.exercise-card span,
+.program-item span,
+.note-box,
+.customer-card p,
+.customer-meta,
+.selected-customer-banner p {
+  color: var(--muted);
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.9rem;
+  margin: 4px 0 6px;
+}
+
+.trainer-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 22px;
+}
+
+.program-layout,
+.client-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 22px;
+}
+
+.panel {
+  border-radius: 28px;
+  padding: 22px;
+}
+
+.panel-stretch {
+  height: 100%;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.pill,
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.pill {
+  background: #ecfdf8;
+  color: #046c57;
+}
+
+.tag {
+  background: #f5f3ff;
+  color: #6941c6;
+}
+
+.search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: var(--muted);
+}
+
+.customer-list,
+.program-list,
+.exercise-grid,
+.client-session-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.customer-card,
+.exercise-card,
+.program-item,
+.selected-customer-banner,
+.note-box,
+.empty-state {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+.customer-card {
+  width: 100%;
+  text-align: left;
+  padding: 16px;
+}
+
+.customer-card.selected {
+  outline: 2px solid rgba(48, 227, 190, 0.35);
+  background: linear-gradient(180deg, #ffffff 0%, #f1fffb 100%);
+}
+
+.customer-card-top,
+.customer-meta,
+.program-item-head,
+.exercise-bottom,
+.banner-meta,
+.session-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.customer-card-top {
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.customer-meta {
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 0.92rem;
+}
+
+.selected-customer-banner {
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(48, 227, 190, 0.12), rgba(217, 18, 120, 0.08));
+}
+
+.banner-meta {
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.92rem;
+}
+
+.program-item {
+  padding: 16px;
+}
+
+.program-order {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: #f4f7fb;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.program-item-head {
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.program-item label,
+.exercise-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exercise-card {
+  padding: 16px;
+}
+
+.exercise-bottom {
+  align-items: center;
+  margin-top: 8px;
+}
+
+.exercise-card button,
+.ghost-button {
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+.exercise-card button {
+  background: linear-gradient(135deg, var(--primary), #8ff1db);
+  color: #053b33;
+}
+
+.ghost-button {
+  background: #f5f7fa;
+  color: #344054;
+}
+
+.empty-state,
+.note-box {
+  padding: 22px;
+}
+
+.session-row {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(16, 24, 40, 0.08);
+}
+
+.session-row:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 1100px) {
+  .hero-card,
+  .trainer-grid,
+  .program-layout,
+  .client-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding: 16px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-header,
+  .selected-customer-banner,
+  .program-item-head,
+  .customer-card-top,
+  .customer-meta,
+  .banner-meta,
+  .exercise-bottom,
+  .session-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

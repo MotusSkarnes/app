@@ -1,18 +1,24 @@
 import { useState } from "react";
-import TrainerPage from "./pages/TrainerPage";
+import SegmentedToggle from "./components/SegmentedToggle";
 import ClientPage from "./pages/ClientPage";
+import TrainerPage from "./pages/TrainerPage";
+import type { ViewMode } from "./types";
 
 export default function App() {
-  const [view, setView] = useState<"trainer" | "client">("trainer");
+  const [view, setView] = useState<ViewMode>("trainer");
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>PT App</h1>
+    <div className="app-shell">
+      <header className="topbar">
+        <div>
+          <p className="brand-kicker">PT APP</p>
+          <h1>Personlig trenerplattform</h1>
+        </div>
 
-      <button onClick={() => setView("trainer")}>Trener</button>
-      <button onClick={() => setView("client")}>Kunde</button>
+        <SegmentedToggle value={view} onChange={setView} />
+      </header>
 
-      {view === "trainer" ? <TrainerPage /> : <ClientPage />}
+      <main>{view === "trainer" ? <TrainerPage /> : <ClientPage />}</main>
     </div>
   );
 }
